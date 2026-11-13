@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Tanki 2014 — HTML5</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #12121a;
+        overflow: hidden;
+      }
+      #app {
+        position: fixed;
+        inset: 0;
+      }
+      #hud {
+        position: fixed;
+        left: 12px;
+        top: 44px;
+        color: #cfd3ff;
+        font: 13px/1.45 Consolas, monospace;
+        background: #000a;
+        padding: 10px 12px;
+        border-radius: 8px;
+        pointer-events: none;
+        white-space: pre;
+      }
+
+      /* левая треть экрана (место будущего чата лобби) */
+      #net {
+        position: fixed;
+        z-index: 3;
+        left: 12px;
+        top: 72px;
+        width: min(390px, calc(33.3vw - 24px));
+        max-height: calc(100vh - 150px);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px;
+        box-sizing: border-box;
+        color: #d8dcff;
+        font: 12px/1.4 Consolas, monospace;
+        background: #0b0b13e6;
+        border: 1px solid #2c3350;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px #0008;
+      }
+      #net[hidden] {
+        display: none;
+      }
+      #net .net-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        color: #ffd479;
+      }
+      #net .net-title button {
+        padding: 0 8px;
+        line-height: 18px;
+      }
+      /* свёрнутая панель: только заголовок и статус */
+      #net.net-collapsed {
+        width: auto;
+        gap: 4px;
+        padding: 6px 10px;
+      }
+      #net.net-collapsed > :not(.net-title):not(.net-status) {
+        display: none;
+      }
+      #net .net-status[data-kind='ok'] {
+        color: #7ce38b;
+      }
+      #net .net-status[data-kind='error'] {
+        color: #ff8080;
+      }
+      #net form {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 6px;
+        align-items: end;
+      }
+      #net form label {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        color: #8f97c0;
+      }
+      #net form label.net-inline {
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+      }
+      #net input[type='text'],
+      #net input[type='password'] {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 4px 6px;
+        color: #eaeaff;
+        background: #151a2c;
+        border: 1px solid #333c60;
+        border-radius: 5px;
+        font: inherit;
+      }
+      #net button {
+        padding: 6px 12px;
+        color: #10121c;
+        background: #ffd479;
+        border: 0;
+        border-radius: 5px;
+        font: inherit;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      #net button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      #net .net-battle-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+        color: #9fe0ff;
+      }
+      #net .net-battles {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        max-height: 150px;
+        overflow-y: auto;
+      }
+      #net .net-battle-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 5px;
+        background: #0b0e1c;
+        border: 1px solid #232a44;
+        border-radius: 4px;
+      }
+      #net .net-user {
+        color: #9fe0ff;
+      }
+      #net .net-spaces {
+        color: #8f97c0;
+      }
+      #net .net-log {
+        flex: 1 1 auto;
+        min-height: 120px;
+        overflow-y: auto;
+        padding: 6px;
+        background: #05060b;
+        border: 1px solid #232a44;
+        border-radius: 5px;
+        color: #7f88ab;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="hud">загрузка…</div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

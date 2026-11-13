@@ -1,0 +1,102 @@
+/* окно авторизации (AuthWindow) — в стиле окна настроек и таблицы Tab */
+.auth-window {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 7;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 20px 18px;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(116, 190, 46, 0.55);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px #000a;
+  font: 13px/18px 'MyriadPro', 'Myriad Pro', Arial, sans-serif;
+  color: #fff;
+}
+.auth-window[hidden],
+.auth-window [hidden] {
+  display: none;
+}
+.auth-title {
+  margin-bottom: 2px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+  color: #9ce34a;
+}
+.auth-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #9a9a9a;
+}
+.auth-row input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 7px;
+  font: inherit;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #3d5a22;
+  border-radius: 3px;
+  outline: none;
+}
+.auth-row input:focus {
+  border-color: #6fbd29;
+}
+.auth-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ddd;
+  cursor: pointer;
+}
+.auth-check input {
+  margin: 0;
+  accent-color: #6fbd29;
+}
+.auth-status {
+  min-height: 18px;
+  color: #ddd;
+}
+.auth-status.auth-error {
+  color: #ff6a5a;
+}
+.auth-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.auth-buttons button {
+  padding: 6px 14px;
+  font: inherit;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.auth-submit {
+  background: #3b6e1e;
+  border: 1px solid #6aa83f;
+}
+.auth-submit:hover:not(:disabled) {
+  background: #47852a;
+}
+.auth-switch {
+  background: transparent;
+  border: 1px solid #555;
+  color: #ddd;
+}
+.auth-switch:hover:not(:disabled) {
+  border-color: #888;
+}
+.auth-buttons button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

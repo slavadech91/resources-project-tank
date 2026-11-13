@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import * as THREE from 'three';
+import { ShaftAimSounds } from '../src/tanks/sfx/ShaftAimSounds.ts';
+import { ShaftMuzzleFlash } from '../src/tanks/sfx/ShaftMuzzleFlash.ts';
+import { Vector3 } from '../src/physics/math/Vector3.ts';
+import { Matrix4 } from '../src/physics/math/Matrix4.ts';
+import type { Sound,SoundManager,Sound3DEffectLike } from '../src/tanks/sfx/Sound.ts';
+
+const channels:{stopped:boolean;stop():void}[]=[];
+const sound={play:()=>{const c={stopped:false,stop(){this.stopped=true;}};channels.push(c);return c;}} as unknown as Sound;
+const effects:Sound3DEffectLike[]=[];
+const manager={addEffect:(effect:Sound3DEffectLike)=>effects.push(effect)} as unknown as SoundManager;
+const a=new ShaftAimSounds(manager,sound,sound,()=>new Vector3());
+const b=new ShaftAimSounds(manager,sound,sound,()=>new Vector3());
+a.setMoving(true);a.setMoving(true);
+assert.equal(channels.length,3,'movement does not stack sound loops');
+a.setMoving(false);assert.equal(channels[2].stopped,true);
+a.setMoving(true);a.stop();
+assert.equal(channels[0].stopped,true,'charge stops on scope exit');
+assert.equal(channels[3].stopped,true,'targeting stops on scope exit');
+assert.equal(channels[1].stopped,false,'another weapon owns a separate voice');
+const count=channels.length;
+effects[0].play(16,{position:new Vector3(),xAxis:new Vector3(1,0,0)});
+a.setMoving(true);assert.equal(channels.length,count,'stopped voice cannot restart next frame');
+assert.equal(effects[0].numSounds,0);b.stop();
+
+const parent=new THREE.Group(),texture=new THREE.Texture(),matrix=new Matrix4();
+const muzzle=new ShaftMuzzleFlash(parent,texture,new Vector3(0,100,0),matrix);
+assert.equal(muzzle.play(200,new Vector3()),true,'first visible frame survives a catch-up update');
+matrix.d=50;muzzle.play(100,new Vector3());
+assert.equal(parent.children[0].position.x,50,'flash follows the muzzle');
+assert.equal(muzzle.play(49,new Vector3()),true,'flash remains visible for 150ms');
+assert.equal(muzzle.play(2,new Vector3()),false);
+muzzle.destroy();assert.equal(parent.children.length,0);
+console.log('Shaft SFX: owned audio loops stop without restart or cross-weapon interference; muzzle 150ms, anchoring and cleanup OK');
+
+let active=true;
+const guarded=new ShaftAimSounds(manager,sound,sound,()=>new Vector3(),()=>1,()=>active);
+const charging=channels.at(-1)!;active=false;
+effects.at(-1)!.play(16,{position:new Vector3(),xAxis:new Vector3(1,0,0)});
+assert.equal(charging.stopped,true,'sound manager closes a voice whose weapon already fired or left scope');
+assert.equal(effects.at(-1)!.numSounds,0);guarded.stop();

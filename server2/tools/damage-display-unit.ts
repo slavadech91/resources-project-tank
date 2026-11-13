@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {Battle} from '../src/battle/battle.ts';
+const messages:any[]=[];const battle=Object.create(Battle.prototype) as any;
+Object.assign(battle,{send:(who:any,name:string,args:any)=>messages.push({who,name,args}),broadcast:()=>{},kill:()=>{}});
+const shooter={effects:new Map(),loadout:{weapon:{kind:'smoky'}}};
+const target={state:'active',effects:new Map(),loadout:{resistances:new Map()},health:100,position:{x:1,y:2,z:3},isBot:false};
+battle.damage(target,20,shooter);assert.equal(messages[0].who,shooter);assert.equal(messages[0].args.amount,20);assert.equal(messages[0].args.type,'normal');
+battle.damage(target,10,shooter,true);assert.equal(messages[1].args.type,'critical');
+battle.damage(target,1000,shooter);assert.equal(messages[2].args.type,'fatal');assert.equal(messages[2].args.amount,70);
+console.log('Damage numbers: server-confirmed HP loss, shooter-only, critical/fatal and capped lethal amount OK');

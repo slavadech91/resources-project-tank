@@ -1,0 +1,11 @@
+/* Narukami BattleMessages.alignMessages: stage right, y=50; native 26px weapon PNGs. */
+.battle-killfeed{position:fixed;right:6px;top:50px;z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:6px;pointer-events:none;user-select:none;max-width:calc(100vw - 12px);overflow:hidden;font:normal 12px/18px Tahoma,Arial,sans-serif}
+.battle-killfeed-line{display:flex;align-items:center;gap:2px;min-height:18px;flex-shrink:0;white-space:nowrap;animation:narukami-killfeed-fade 1s steps(20,end) 30s forwards}
+.battle-killfeed-user{display:inline-flex;align-items:center;height:18px;flex-shrink:0;filter:drop-shadow(0 0 2px #000) drop-shadow(0 0 1px #000)}
+.battle-killfeed-rank{display:inline-flex;align-items:center;justify-content:center;width:20px;height:18px;margin-right:-2px;flex-shrink:0}
+.battle-killfeed-rank img{display:block;max-width:20px;max-height:18px}
+.battle-killfeed-name{padding:0 2px;line-height:18px;font-weight:normal}
+.battle-killfeed-weapon{display:block;width:16px;height:16px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 2px #000) drop-shadow(0 0 1px #000)}
+.battle-killfeed-self{margin-right:4px}
+.battle-killfeed-self .battle-killfeed-user{margin-left:4px;position:relative;top:0}
+@keyframes narukami-killfeed-fade{from{opacity:1}to{opacity:0}}

@@ -1,0 +1,22 @@
+name: Build and test
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - run: pnpm --dir html5 install --frozen-lockfile
+      - run: pnpm --dir html5 build
+      - run: node server2/build.mjs
+      - run: node tools/test-source.mjs

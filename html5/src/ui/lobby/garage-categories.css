@@ -1,0 +1,6 @@
+.garage-categories{position:absolute;height:30px}.garage-category{position:absolute;padding:0;border:0;background:none;color:white;height:30px;cursor:pointer;font:12px MyriadPro,Arial,sans-serif;text-shadow:1px 1px #000}
+.garage-category-l,.garage-category-c,.garage-category-r{position:absolute;top:0;height:30px;pointer-events:none;background-size:auto 30px;background-repeat:no-repeat}
+.garage-category-l{left:0;width:7px}.garage-category-r{right:0;width:7px}.garage-category-c{left:7px;right:7px;background-repeat:repeat-x}
+.garage-category[aria-selected=true]{cursor:default}.garage-category-icon{position:absolute;left:0;top:0;width:30px;height:30px;object-fit:scale-down;pointer-events:none}.garage-category-text{position:relative;line-height:30px;pointer-events:none;white-space:nowrap}.garage-category-icon-text .garage-category-text{display:block;margin-left:21px}.garage-category-icon-only .garage-category-icon{left:0}.garage-category [hidden]{display:none!important}.garage-category:focus-visible{outline:1px solid #59ff32}
+.garage-appearance-overlay{position:fixed;inset:0;z-index:8000;background:#0008;font:12px/16px MyriadPro,Arial,sans-serif;color:white}
+.garage-appearance-overlay[hidden]{display:none!important}

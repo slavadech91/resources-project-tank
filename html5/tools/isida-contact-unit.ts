@@ -1,0 +1,33 @@
+// Rendering data only: no live tank, browser login, server or second player.
+import assert from 'node:assert/strict';
+import * as THREE from 'three';
+import { IsidaEffect } from '../src/tanks/sfx/IsidaEffects.ts';
+import { TextureAnimation } from '../src/tanks/sfx/SmokyEffects.ts';
+import { Matrix3 } from '../src/physics/math/Matrix3.ts';
+import { Vector3 } from '../src/physics/math/Vector3.ts';
+const texture=new THREE.Texture({width:500,height:500} as any);
+const animation=new TextureAnimation(texture,[{u0:0,v0:0,u1:1,v1:1}],30);
+const sound={play:()=>null};
+const assets={idle:{start:animation,end:null,shaft:null,sound},
+  damage:{start:animation,end:animation,shaft:texture,sound},healing:{start:animation,end:animation,shaft:texture,sound}};
+const parent=new THREE.Group();
+const effect=new IsidaEffect(assets as any,{addEffect:()=>{}} as any,{parent,addGraphicEffect:()=>{}} as any);
+const attachment={baseMatrix:new Matrix3(),state:{position:new Vector3(100,0,0)}};
+effect.start();effect.aim(new Vector3(),new Vector3(0,1,0));
+effect.setTarget(new Vector3(110,20,30),false,attachment as any);
+effect.play(16,new Vector3(0,-1000,500));
+const endpoint=parent.children[1],beam=parent.children[2] as THREE.Mesh;
+assert.deepEqual(endpoint.position.toArray(),[110,20,30]);
+effect.setTarget(new Vector3(140,80,60),false,attachment as any);
+effect.setBuffedMode(true);effect.play(16,new Vector3(0,-1000,500));
+assert.deepEqual(endpoint.position.toArray(),[110,20,30],'new aiming ray must not slide an existing contact');
+assert.equal(beam.geometry.drawRange.count,120,'double damage still draws only one beam');
+attachment.state.position.x=200;
+attachment.baseMatrix.fromAxisAngle(new Vector3(0,0,1),Math.PI/2);
+effect.play(16,new Vector3(0,-1000,500));
+assert.ok(endpoint.position.distanceTo(new THREE.Vector3(180,10,30))<1e-8,'contact follows target translation and rotation');
+effect.setTarget(null,false);effect.setTarget(new Vector3(210,40,10),false,attachment as any);
+effect.play(16,new Vector3(0,-1000,500));
+assert.ok(endpoint.position.distanceTo(new THREE.Vector3(210,40,10))<1e-8,'new acquisition selects a fresh contact');
+effect.destroy();assert.equal(parent.children.length,0);
+console.log('Isida: fixed local contact, target movement/rotation, fresh reacquisition and single buffed beam OK');

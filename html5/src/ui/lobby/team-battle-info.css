@@ -1,0 +1,13 @@
+.team-info-panel > .lb-inner-fill {background:#621700!important;}
+.team-info-blue > .lb-inner-fill {background:#002c59!important;}
+.team-info-list {position:absolute;inset:4px;overflow:auto;scrollbar-width:thin;scrollbar-color:#bd482c #621700;}
+.team-info-blue .team-info-list {scrollbar-color:#3882bc #002c59;}
+.team-info-row {position:relative;height:20px;line-height:20px;overflow:hidden;}
+.team-info-row > div[class^='team-info-row-'] {position:absolute;top:0;bottom:0;pointer-events:none;}
+.team-info-row-left {left:0;width:5px;}.team-info-row-center {left:5px;right:5px;}.team-info-row-right {right:0;width:5px;}
+.team-info-red .team-info-row-left {background:url('/battle/team_info/red_left.png');}.team-info-red .team-info-row-center {background:url('/battle/team_info/red_center.png') repeat-x;}.team-info-red .team-info-row-right {background:url('/battle/team_info/red_right.png');}
+.team-info-blue .team-info-row-left {background:url('/battle/team_info/blue_left.png');}.team-info-blue .team-info-row-center {background:url('/battle/team_info/blue_center.png') repeat-x;}.team-info-blue .team-info-row-right {background:url('/battle/team_info/blue_right.png');}
+.team-info-name {left:22px;right:40px;top:1px;overflow:hidden;color:#fff;}.team-info-kills {right:15px;top:1px;color:#fff;}.team-info-empty {left:10px;top:1px;color:#fff;opacity:.5;}
+.team-info-score {position:absolute;display:flex;justify-content:center;gap:3px;font:22px/28px 'MyriadPro',Arial,sans-serif;pointer-events:none;text-shadow:0 0 2px #cce0cc,0 0 3px #cce0cc;}
+.team-info-score-red {color:#621700;}.team-info-score-blue {color:#002c59;}
+.team-info-panel[hidden],.team-info-score[hidden] {display:none;}

@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {GarageService} from '../src/garage/garage.ts';
+const g=Object.create(GarageService.prototype) as any;
+const item={id:1,minRank:20,baseItemId:1,modification:1,countable:false},previous={id:2,minRank:1,baseItemId:1,modification:0};
+Object.assign(g,{require:()=>item,catalog:{discountedPrice:()=>100,modifications:()=>[previous,item]},db:{transaction:async(fn:any)=>fn({})},ownedRows:async()=>new Map([[previous.id,{itemId:previous.id}]]),ownedModification:()=>null,modificationDiscount:()=>0,spend:async()=>{const e=new Error('payment still required');(e as any).code='no_crystals';throw e;}});
+await assert.rejects(()=>g.buy(1,1,1,1,100),{code:'forbidden'});
+await assert.rejects(()=>g.buyNext(1,1,1,100),{code:'forbidden'});
+await assert.rejects(()=>g.buy(1,1,1,1,100,true),{code:'no_crystals'});
+await assert.rejects(()=>g.buyNext(1,1,1,100,true),{code:'no_crystals'});
+await assert.rejects(()=>g.buy(1,1,1,1,0,true),{code:'bad_request'});
+console.log('Garage purchases: regular rank gates retained; admin bypasses rank for both purchases, with price/payment checks retained');

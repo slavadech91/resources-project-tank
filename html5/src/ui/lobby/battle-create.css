@@ -1,0 +1,44 @@
+/* ProTanki creation controls; deliberately scoped so garage/chat buttons keep their own skins. */
+.bc-viewport{position:absolute;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-color:#43842c #18221a;scrollbar-width:thin}
+.bc-body{position:relative;color:white;font:12px MyriadPro,Arial,sans-serif}
+.bc-preview{overflow:hidden}.bc-map-title{font:bold 16px/25px MyriadPro,Arial,sans-serif;text-shadow:0 0 3px #000}
+.bc-select-frame{box-sizing:border-box;padding:0 33px 0 7px;background:url('/battle/battle_create/combo_UP_CENTER.png') 7px top repeat-x;background-clip:content-box}
+.bc-select-frame::before,.bc-select-frame::after{content:'';position:absolute;top:0;height:30px;pointer-events:none;background-repeat:no-repeat}
+.bc-select-frame::before{left:0;width:7px;background-image:url('/battle/battle_create/combo_UP_LEFT.png')}
+.bc-select-frame::after{right:0;width:33px;background-image:url('/battle/battle_create/combo_UP_RIGHT.png')}
+.bc-select-frame:hover{background-image:url('/battle/battle_create/combo_OVER_CENTER.png')}
+.bc-select-frame:hover::before{background-image:url('/battle/battle_create/combo_OVER_LEFT.png')}.bc-select-frame:hover::after{background-image:url('/battle/battle_create/combo_OVER_RIGHT.png')}
+.bc-select-frame:has(select:disabled){background-image:url('/battle/battle_create/combo_OFF_CENTER.png')}
+.bc-select-frame:has(select:disabled)::before{background-image:url('/battle/battle_create/combo_OFF_LEFT.png')}.bc-select-frame:has(select:disabled)::after{background-image:url('/battle/battle_create/combo_OFF_RIGHT.png')}
+.bc-select{position:absolute;inset:0;width:100%;height:30px;box-sizing:border-box;appearance:none;border:0;border-radius:0;background:transparent;color:white;padding:0 37px 0 6px;font:12px MyriadPro,Arial,sans-serif;cursor:pointer;text-shadow:1px 1px #000}
+.bc-select option{background:#183519;color:white;text-shadow:none}.bc-select:disabled{cursor:default;color:#bbb}.bc-select:focus-visible{outline:1px solid #59ff32}
+.bc-option{padding:0;border:0;background:none;color:white;text-align:left;cursor:pointer;font:inherit}
+.bc-option img{left:0;top:0;pointer-events:none}.bc-option:disabled{opacity:.38;cursor:default}.bc-option .lb-label{white-space:nowrap;right:0;overflow:hidden;text-overflow:ellipsis}.bc-option:focus-visible{outline:1px solid #59ff32}
+.bc-name{padding:0 8px!important;text-align:left!important;box-sizing:border-box}
+.bc-type .lb-bigbutton-label{white-space:pre-line;font-size:12px;line-height:15px;height:32px;top:10px!important}
+.bc-type-selected .lb-bigbutton-label{top:11px!important}
+.bc-type-selected>.lb-button-l{background-image:url('/lobby/ui/GreyBigButtonSkin_leftDownClass.png')!important}.bc-type-selected>.lb-button-c{background-image:url('/lobby/ui/GreyBigButtonSkin_middleDownClass.png')!important}.bc-type-selected>.lb-button-r{background-image:url('/lobby/ui/GreyBigButtonSkin_rightDownClass.png')!important}
+.bc-rank-bar{box-sizing:border-box;padding:0 6px 0 5px;background:url('/battle/battle_create/slider_TRACK_CENTER.png') 5px top repeat-x;background-clip:content-box}
+.bc-rank-bar::before,.bc-rank-bar::after,.bc-rank-fill::before,.bc-rank-fill::after{content:'';position:absolute;top:0;height:30px;background-repeat:no-repeat;pointer-events:none}
+.bc-rank-bar::before{left:0;width:5px;background-image:url('/battle/battle_create/slider_TRACK_LEFT.png')}.bc-rank-bar::after{right:0;width:6px;background-image:url('/battle/battle_create/slider_TRACK_RIGHT.png')}
+.bc-rank-fill{position:absolute;top:0;height:30px;min-width:36px;box-sizing:border-box;padding:0 10px;background:url('/battle/battle_create/slider_THUMB_CENTER.png') 10px top repeat-x;background-clip:content-box;cursor:ew-resize;touch-action:none}
+.bc-rank-fill::before{left:0;width:10px;background-image:url('/battle/battle_create/slider_THUMB_LEFT.png')}.bc-rank-fill::after{right:0;width:10px;background-image:url('/battle/battle_create/slider_THUMB_RIGHT.png')}
+.bc-rank{position:absolute;width:100%;height:30px;left:0;top:0;margin:0;background:transparent;appearance:none;pointer-events:none;outline:none}
+.bc-rank::-webkit-slider-thumb{appearance:none;width:14px;height:30px;cursor:ew-resize;pointer-events:auto;background:transparent;border:0}
+.bc-rank::-moz-range-thumb{width:14px;height:30px;cursor:ew-resize;pointer-events:auto;background:transparent;border:0}
+.bc-rank:focus-visible::-webkit-slider-thumb{outline:1px solid #59ff32}.bc-rank-icon{position:absolute;top:9px;width:13px;height:13px;pointer-events:none}
+.bc-create-button{border:0;padding:0;color:white;font:12px MyriadPro,Arial,sans-serif;text-shadow:1px 1px #000;cursor:pointer;background:url('/battle/battle_create/button_red_UP_LEFT.png') left top no-repeat,url('/battle/battle_create/button_red_UP_RIGHT.png') right top no-repeat,url('/battle/battle_create/button_red_UP_CENTER.png') center top repeat-x}
+.bc-create-button:hover{background-image:url('/battle/battle_create/button_red_OVER_LEFT.png'),url('/battle/battle_create/button_red_OVER_RIGHT.png'),url('/battle/battle_create/button_red_OVER_CENTER.png')}.bc-create-button:active{background-image:url('/battle/battle_create/button_red_DOWN_LEFT.png'),url('/battle/battle_create/button_red_DOWN_RIGHT.png'),url('/battle/battle_create/button_red_DOWN_CENTER.png')}
+.bc-create-button:disabled{opacity:.45;cursor:default}.bc-create-button:focus-visible{outline:1px solid #59ff32}
+/* Separate pointer targets use the actual thumb edges, not two overlapping native range controls. */
+.bc-rank-edge{position:absolute;top:0;width:15px;height:30px;margin:0;padding:0;border:0;background:transparent;cursor:ew-resize;touch-action:none;z-index:2}
+.bc-rank-edge-min{left:0}.bc-rank-edge-max{right:0}.bc-rank-edge:focus-visible{outline:1px solid #59ff32;outline-offset:-2px}
+.bc-select{text-align:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;line-height:30px}
+.bc-select[hidden]{display:none!important}
+.bc-select-open{background-image:url('/battle/battle_create/combo_DOWN_CENTER.png')}.bc-select-open::before{background-image:url('/battle/battle_create/combo_DOWN_LEFT.png')}.bc-select-open::after{background-image:url('/battle/battle_create/combo_DOWN_RIGHT.png')}
+.bc-dropdown-popup{position:fixed;z-index:10050;color:white;font:12px/20px MyriadPro,Arial,sans-serif;user-select:none;box-sizing:border-box}
+.bc-dropdown-popup[hidden]{display:none!important}.bc-dropdown-list{position:absolute;inset:4px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#999 #303030}
+.bc-dropdown-row{display:block;position:relative;box-sizing:border-box;width:100%;height:20px;padding:0 8px;border:0;background:transparent;color:white;text-align:left;font:12px/20px MyriadPro,Arial,sans-serif;text-shadow:1px 1px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.bc-dropdown-row:disabled{color:#888;cursor:default}.bc-dropdown-row:not(:disabled):hover,.bc-dropdown-row:not(:disabled):focus-visible{outline:none;background:url('/battle/battle_create/combolist_OVER_LEFT.png') left top no-repeat,url('/battle/battle_create/combolist_OVER_RIGHT.png') right top no-repeat,url('/battle/battle_create/combolist_OVER_CENTER.png') center top repeat-x}
+.bc-rank-edge::after{content:'';position:absolute;top:12px;width:4px;height:7px;background:url('/battle/battle_create/SelectRankThumbSlider_bitmapArrow.png') no-repeat;pointer-events:none}
+.bc-rank-edge-min::after{left:5px}.bc-rank-edge-max::after{right:5px;transform:rotate(180deg)}.bc-rank-fill[data-single=true] .bc-rank-edge::after{display:none}

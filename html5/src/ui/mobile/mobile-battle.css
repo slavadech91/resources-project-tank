@@ -1,0 +1,41 @@
+.mobile-battle-controls{position:fixed;inset:0;z-index:6;pointer-events:none;user-select:none;-webkit-user-select:none;}
+.mobile-battle-controls[hidden],.mobile-fullscreen[hidden]{display:none;}
+.mobile-battle-controls button,.mobile-fullscreen{pointer-events:auto;touch-action:none;min-height:42px;border:1px solid #a8c78b88;border-radius:10px;background:#13230ddb;color:#fff;font:bold 13px Arial,sans-serif;padding:6px 10px;-webkit-tap-highlight-color:transparent;}
+.mobile-battle-controls button:active,.mobile-battle-controls .held{background:#517a31ee;}
+.mobile-battle-menu{position:absolute;left:max(8px,env(safe-area-inset-left));top:max(6px,env(safe-area-inset-top));display:flex;gap:5px;}
+.mobile-fullscreen{position:fixed;right:max(8px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));z-index:8;font-size:24px;min-width:44px;}
+.mobile-fullscreen.in-battle{bottom:auto;top:max(6px,env(safe-area-inset-top));}
+.mobile-stick{position:absolute;pointer-events:auto;touch-action:none;left:max(18px,env(safe-area-inset-left));bottom:calc(64px + env(safe-area-inset-bottom));width:140px;height:140px;border-radius:50%;background:#14241470;border:2px solid #c5ddb388;}
+.mobile-stick-knob{position:absolute;left:50%;top:50%;width:56px;height:56px;border-radius:50%;transform:translate(-50%,-50%);background:#aec99788;border:1px solid #e2efcb;pointer-events:none;}
+.mobile-aim-area{position:absolute;right:0;top:60px;width:48%;bottom:65px;pointer-events:auto;touch-action:none;}
+.mobile-aim-hint{position:absolute;left:10px;top:15px;color:#fff6;font:12px Arial;pointer-events:none;}
+.mobile-battle-controls .mobile-fire{position:absolute;right:20px;bottom:85px;width:90px;height:90px;border-radius:50%;background:#762c23c9;border-color:#ffb49c;}
+.mobile-center{position:absolute;right:124px;bottom:90px;}
+.mobile-camera{position:absolute;right:12px;top:70px;display:flex;gap:5px;}
+.mobile-inventory{position:absolute;bottom:max(8px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:5px;}
+.mobile-inventory button{position:relative;width:45px;height:45px;font-size:19px;overflow:hidden;}
+.mobile-inventory-count{position:absolute;right:3px;bottom:1px;font:11px Arial;z-index:1;}
+.mobile-inventory-cooldown{position:absolute;left:0;right:0;bottom:0;max-height:100%;background:#0009;pointer-events:none;}
+.mobile-status{position:fixed;left:50%;top:70px;transform:translateX(-50%);z-index:30;background:#17220fe6;color:#fff;font:14px Arial;text-align:center;border-radius:6px;max-width:85vw;}
+.mobile-status:not(:empty){padding:10px;}
+.mobile-battle .hud-top,.mobile-battle .hud-inventory{display:none;}
+.mobile-battle .hud-inventory.archive-inventory{display:block;left:50%!important;width:240px;transform:translateX(-50%);}
+.mobile-battle .archive-inventory .hud-slot{pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.mobile-battle .hud-field{transform:scale(.75);transform-origin:bottom right;}
+.mobile-battle #hud{display:none;}
+@media (orientation:portrait){.mobile-stick{width:120px;height:120px;left:10px;bottom:75px;}.mobile-battle-menu{gap:2px;}.mobile-battle-menu button{padding:5px 6px;font-size:11px;}.mobile-center{right:112px;bottom:210px;}.mobile-camera{top:65px;}.mobile-battle-controls .mobile-fire{right:10px;bottom:95px;}.mobile-aim-area{width:55%;}.mobile-battle .hud-field{opacity:.75;}}
+
+.mobile-battle .hud-root > .hud-field {top:52px!important;left:8px!important;transform:scale(.7);transform-origin:top left;}
+.mobile-battle .hud-root > .hud-field ~ .hud-field {left:auto!important;right:8px;transform-origin:top right;}
+.mobile-battle .hud-fps {display:none;}
+.mobile-battle .battle-notice {top:112px;font-size:14px;}
+.mobile-battle .stats-root {min-width:0;max-width:calc(100vw - 16px);max-height:70dvh;overflow:auto;pointer-events:auto;}
+.mobile-battle .mobile-camera {top:90px;}
+
+.mobile-lobby-nav{position:fixed;left:max(8px,env(safe-area-inset-left));top:max(6px,env(safe-area-inset-top));display:flex;gap:5px;z-index:8;}
+.mobile-lobby-nav[hidden]{display:none;}
+.mobile-lobby-nav button{touch-action:manipulation;min-height:42px;border:1px solid #a8c78b88;border-radius:8px;background:#13230deb;color:#fff;font:bold 13px Arial;padding:6px 12px;}
+.mobile-device .hud-top{display:none;}
+.mobile-device .mobile-fullscreen{bottom:auto;top:max(6px,env(safe-area-inset-top));}
+
+.mobile-battle .chat-root.chat-open{z-index:12;bottom:10px;}

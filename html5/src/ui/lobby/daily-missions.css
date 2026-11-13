@@ -1,0 +1,160 @@
+.ui-glass .hud-btn[data-name="missions"] img { width: 17px; height: 17px; object-fit: contain; }
+
+.daily-missions {
+  width: min(870px, calc(100vw - 16px));
+  max-height: calc(100dvh - 16px);
+  box-sizing: border-box;
+  background: transparent;
+  color: #fff;
+  border: 0;
+  padding: 25px 0;
+  font: 12px/16px MyriadPro, Arial, sans-serif;
+  scrollbar-width: thin;
+}
+.daily-missions::backdrop { background: #0005; }
+.missions-window {
+  position: relative;
+  isolation: isolate;
+  padding: 11px;
+  display: grid;
+  gap: 8px;
+}
+.missions-frame { inset: 0; pointer-events: none; }
+.missions-window > .missions-frame { z-index: -1; }
+.daily-missions h2 {
+  position: absolute;
+  z-index: 1;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  pointer-events: none;
+}
+.daily-missions h2 img { display: block; }
+.missions-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 120px)); gap: 8px; }
+.daily-missions [role='tabpanel'] { min-height: 367px; }
+#missions-challenges:not([hidden]) {
+  display: grid;
+  grid-template: 'level summary' 24px 'level rewards' 46px 'silver rewards' 118px 'gold rewards' 170px / 120px minmax(0, 1fr);
+  gap: 3px 8px;
+}
+.missions-challenge-level, .missions-challenge-silver, .missions-challenge-gold {
+  background-size: 100% 100%;
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+.missions-challenge-level {
+  grid-area: level;
+  background-image: url('/lobby/missions/diamond-level.png');
+  color: #12ff00;
+  font-size: 18px;
+  line-height: 18px;
+}
+.missions-challenge-level strong { font-size: 42px; line-height: 36px; }
+.missions-challenge-silver { grid-area: silver; background-image: url('/lobby/missions/diamond-silver-panel.png'); }
+.missions-challenge-gold { grid-area: gold; background-image: url('/lobby/missions/diamond-gold-panel.png'); }
+.missions-challenge-silver img, .missions-challenge-gold img { width: 106px; max-width: 90%; justify-self: center; }
+.missions-challenge-summary { grid-area: summary; display: grid; grid-template-columns: minmax(0, 1fr) minmax(40px, 126px); gap: 8px; }
+.missions-challenge-stars, .missions-challenge-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 7px;
+  white-space: nowrap;
+}
+.missions-challenge-stars {
+  background: url('/lobby/missions/diamond-stars-fill.png') left top / 100px 24px no-repeat,
+    url('/lobby/missions/diamond-stars-track.png') center / 100% 100%;
+  color: #12ff00;
+}
+.missions-challenge-clock { border-radius: 3px; box-shadow: inset 0 0 0 1px #aaa8, inset 0 0 4px #111; }
+.missions-challenge-rewards { grid-area: rewards; position: relative; margin-top: 5px; }
+.daily-missions-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.daily-missions article { display: grid; justify-items: center; align-content: start; gap: 10px; min-width: 0; }
+.daily-mission-card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: 172px 1fr;
+  width: 100%;
+  height: 300px;
+  box-sizing: border-box;
+  padding: 8px;
+}
+.daily-mission-card > .missions-frame { z-index: -1; }
+.daily-mission-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: radial-gradient(ellipse at center, #2c4b15, transparent 67%);
+}
+.daily-mission-art[data-kind] img { width: 47%; max-height: 105px; object-fit: contain; filter: drop-shadow(0 0 10px #b4df4266); }
+.daily-mission-art[data-kind] img:first-child, .daily-mission-art[data-kind] img:last-child { width: 22%; opacity: .74; }
+.daily-mission-art[data-kind] img:first-child { transform: translateY(16px) rotate(-12deg); }
+.daily-mission-art[data-kind] img:last-child { transform: translateY(-12px) rotate(12deg); }
+.daily-mission-art[data-kind="kills"] img { filter: sepia(1) saturate(3) hue-rotate(24deg) drop-shadow(0 0 10px #b4df4266); }
+.daily-mission-completed .daily-mission-art { background: none; align-items: start; padding-top: 22px; }
+.daily-mission-completed .daily-mission-art img { width: min(calc(100% + 16px), 280px); height: auto; flex-shrink: 0; }
+.daily-mission-countdown { position: absolute; top: 8px; left: 8px; display: flex; align-items: center; gap: 3px; }
+.daily-mission-countdown img { display: block; }
+.daily-mission-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+  border-image: url('/lobby/missions/quest-panel.png') 6 fill / 6px stretch;
+}
+.daily-mission-completed .daily-mission-details { justify-content: center; gap: 12px; text-align: center; }
+.daily-mission-completed .daily-mission-details p { margin: 0; }
+.daily-mission-details span { color: #9df47b; }
+.daily-mission-objective { display: flex; justify-content: space-between; gap: 4px; }
+.daily-mission-objective strong { font-weight: normal; }
+.daily-mission-objective output { white-space: nowrap; }
+.daily-missions button {
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  text-shadow: 0 1px #111;
+}
+.daily-missions .missions-button {
+  height: 30px;
+  border-image: var(--button-sprite) 0 7 fill / 0 7px stretch;
+  --button-sprite: url('/lobby/missions/close-up.png');
+  white-space: nowrap;
+}
+.missions-button:hover { --button-sprite: url('/lobby/missions/close-over.png'); }
+.missions-button:active, .missions-button[aria-selected='true'] { --button-sprite: url('/lobby/missions/close-down.png'); }
+.missions-button:disabled { --button-sprite: url('/lobby/missions/tab-disabled.png'); }
+.daily-missions article button {
+  width: 120px;
+  height: 50px;
+  font-size: 14px;
+  background: transparent var(--button-sprite) no-repeat center / 100% 100%;
+  --button-sprite: url('/lobby/missions/reward-up.png');
+}
+.daily-missions article button:hover { --button-sprite: url('/lobby/missions/reward-over.png'); }
+.daily-missions article button:active { --button-sprite: url('/lobby/missions/reward-down.png'); }
+.daily-missions article button:disabled { --button-sprite: url('/lobby/missions/prize-disabled.png'); }
+.daily-missions form button { width: 96px; }
+.daily-missions button:not(:disabled) { cursor: pointer; }
+.daily-missions form { margin: -5px 0 0; text-align: right; }
+.daily-missions-status { margin: 8px 0 0; }
+.daily-missions-status:empty { display: none; }
+@media (max-width: 530px) {
+  .missions-tabs { grid-template-columns: repeat(2, minmax(0, 120px)); }
+  #missions-challenges:not([hidden]) { grid-template-columns: 90px minmax(0, 1fr); }
+  .missions-challenge-summary { grid-template-columns: minmax(0, 1fr) 44px; }
+  .missions-challenge-stars, .missions-challenge-clock { gap: 4px; padding-inline: 4px; }
+  .daily-missions form { margin-top: 0; }
+  .daily-missions-list { grid-template-columns: 1fr; }
+  .daily-mission-card { height: auto; grid-template: auto / 34% 1fr; gap: 5px; }
+  .daily-mission-art { min-height: 90px; }
+  .daily-mission-details { min-height: 75px; }
+  .daily-mission-completed .daily-mission-art { align-items: center; padding-top: 18px; }
+  .daily-mission-completed .daily-mission-art img { width: 100%; }
+}

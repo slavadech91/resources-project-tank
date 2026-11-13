@@ -1,0 +1,11 @@
+{
+  "name": "tanki-server2",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Новый игровой сервер для html5-клиента: TypeScript, протокол v2, общие со старым сервером MariaDB и конфиги",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node dist/server2.mjs"
+  }
+}

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {KillFeedModel,feedWeaponIcon} from '../src/ui/hud/KillFeedModel.ts';
+const model=new KillFeedModel(),user={id:1,name:'<b>Player</b>',rank:1,team:'none' as const};
+for(let i=0;i<12;i++)model.add({victim:user,killer:null,weapon:null,key:String(i)},i);
+assert.equal(model.lines.length,10);assert.equal(model.lines[0].key,'2');
+assert.equal(model.add({victim:user,killer:null,weapon:null,key:'11'},20),null);
+model.expire(31002);assert.equal(model.lines.length,9);model.expire(32000);assert.equal(model.lines.length,0);
+assert.equal(feedWeaponIcon('isida'),'isis');assert.equal(feedWeaponIcon('mine'),'mine');assert.equal(feedWeaponIcon('../bad'),null);
+model.clear();assert.ok(model.add({victim:user,killer:null,weapon:null,key:'11'},0));
+console.log('Kill feed: ordering, 10-line limit, lifetime, deduplication, reset and weapon mapping OK');

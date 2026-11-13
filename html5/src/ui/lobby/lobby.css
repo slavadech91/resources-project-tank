@@ -1,0 +1,328 @@
+/* Лобби оригинала (список боёв, информация о бое, гараж): картинки — tools/extract_lobby_assets.py -> public/lobby */
+.lb-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  /* Desktop panels keep their original minimum stage size; narrow screens can pan it. */
+  overflow: auto;
+  touch-action: pan-x pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  /* фон под окнами лобби (вместо тайла BackgroundService оригинала) — на весь экран, одна картинка в обеих темах */
+  background: #121212 url('/lobby/background.jpg?v=2') center / cover no-repeat fixed;
+  font: 12px/16px 'MyriadPro', 'Myriad Pro', Arial, sans-serif;
+  color: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+.lb-root[hidden] {
+  display: none;
+}
+.lb-root img {
+  image-rendering: auto;
+}
+.lb-abs,
+.lb-label,
+.lb-window,
+.lb-inner,
+.lb-button,
+.lb-bigbutton,
+.lb-panel {
+  position: absolute;
+}
+.lb-label {
+  white-space: pre;
+}
+
+/* ---------- controls.TankWindow ---------- */
+.lb-window > div {
+  position: absolute;
+}
+.lb-window-bg {
+  inset: 7px;
+  background: url('/lobby/ui/WindowBGTile.png');
+}
+.lb-window-top,
+.lb-window-bottom {
+  left: 11px;
+  right: 11px;
+  height: 11px;
+}
+.lb-window-top {
+  top: 0;
+  background: url('/lobby/ui/WindowTop.png') repeat-x;
+}
+.lb-window-bottom {
+  bottom: 0;
+  background: url('/lobby/ui/WindowBottom.png') repeat-x;
+}
+.lb-window-left,
+.lb-window-right {
+  top: 11px;
+  bottom: 11px;
+  width: 11px;
+}
+.lb-window-left {
+  left: 0;
+  background: url('/lobby/ui/WindowLeft.png') repeat-y;
+}
+.lb-window-right {
+  right: 0;
+  background: url('/lobby/ui/WindowRight.png') repeat-y;
+}
+.lb-corner-tl {
+  left: 0;
+  top: 0;
+}
+.lb-corner-tr {
+  right: 0;
+  top: 0;
+}
+.lb-corner-bl {
+  left: 0;
+  bottom: 0;
+}
+.lb-corner-br {
+  right: 0;
+  bottom: 0;
+}
+
+/* ---------- controls.TankWindowInner ---------- */
+.lb-inner > div {
+  position: absolute;
+}
+.lb-inner-fill {
+  inset: 1px;
+}
+.lb-inner-clip {
+  inset: 1px;
+  overflow: hidden;
+}
+.lb-inner-clip img {
+  left: 0;
+  top: 0;
+}
+.lb-inner-t,
+.lb-inner-b {
+  left: 6px;
+  right: 6px;
+  height: 6px;
+  background-size: 100% 100%;
+}
+.lb-inner-t {
+  top: 0;
+  background-image: url('/lobby/ui/TankWindowInner_topClass.png');
+}
+.lb-inner-b {
+  bottom: 0;
+  background-image: url('/lobby/ui/TankWindowInner_bottomClass.png');
+}
+.lb-inner-l,
+.lb-inner-r {
+  top: 6px;
+  bottom: 6px;
+  width: 6px;
+  background-size: 100% 100%;
+}
+.lb-inner-l {
+  left: 0;
+  background-image: url('/lobby/ui/TankWindowInner_leftClass.png');
+}
+.lb-inner-r {
+  right: 0;
+  background-image: url('/lobby/ui/TankWindowInner_rightClass.png');
+}
+.lb-inner-tl,
+.lb-inner-tr,
+.lb-inner-bl,
+.lb-inner-br {
+  width: 6px;
+  height: 6px;
+}
+.lb-inner-tl {
+  left: 0;
+  top: 0;
+  background-image: url('/lobby/ui/TankWindowInner_topLeftClass.png');
+}
+.lb-inner-tr {
+  right: 0;
+  top: 0;
+  background-image: url('/lobby/ui/TankWindowInner_topRightClass.png');
+}
+.lb-inner-bl {
+  left: 0;
+  bottom: 0;
+  background-image: url('/lobby/ui/TankWindowInner_bottomLeftClass.png');
+}
+.lb-inner-br {
+  right: 0;
+  bottom: 0;
+  background-image: url('/lobby/ui/TankWindowInner_bottomRightClass.png');
+}
+
+/* ---------- кнопки ---------- */
+.lb-button,
+.lb-bigbutton {
+  height: 30px;
+  cursor: pointer;
+}
+.lb-bigbutton {
+  height: 50px;
+}
+.lb-button > div:not(.lb-label),
+.lb-bigbutton > div:not(.lb-label) {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.lb-button-l {
+  left: 0;
+  width: 7px;
+}
+.lb-button-c {
+  left: 7px;
+  right: 7px;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+/* Legacy ColorButton/ButtonState: unscaled bitmap fill, 30px high. */
+.lb-button > .lb-button-c {
+  background-size: auto 30px !important;
+  background-repeat: repeat-x;
+}
+/* Keep the chat tabs' 30px bitmap at native scale; never affect 50px garage buttons. */
+.lobby-chat-tab > .lb-button-c {
+  background-size: auto 30px !important;
+  background-repeat: repeat-x;
+}
+.lb-button-r {
+  right: 0;
+  width: 7px;
+}
+.lb-button-label,
+.lb-bigbutton-label {
+  left: 2px;
+  right: 2px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+}
+.lb-button-label {
+  top: 6px;
+  height: 22px;
+}
+.lb-bigbutton-label {
+  top: 15px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 18px;
+}
+/* ---------- списки (fl.controls.List со строками CellRenderer) ---------- */
+.lb-list {
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3fa52a #062406;
+}
+.lb-row {
+  position: relative;
+  height: 20px;
+  cursor: pointer;
+}
+.lb-row-bg {
+  position: absolute;
+  inset: 0 4px 0 0;
+  display: flex;
+}
+.lb-row-bg > div {
+  height: 20px;
+}
+.lb-row-bg > div:nth-child(2) {
+  flex: 1;
+  background-size: 100% 100%;
+}
+.lb-row .lb-label {
+  top: 1px;
+  line-height: 18px;
+  overflow: hidden;
+}
+
+/* ---------- плитки гаража (forms.garage.PartsList: TileList 203×130, горизонтальная прокрутка) ---------- */
+.lb-tiles {
+  position: absolute;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  scrollbar-color: #3fa52a #062406;
+}
+.lb-tile {
+  position: relative;
+  display: inline-block;
+  width: 203px;
+  height: 130px;
+  vertical-align: top;
+  cursor: pointer;
+}
+.lb-tile .lb-label {
+  overflow: hidden;
+}
+
+.lb-input {
+  position: absolute;
+  height: 30px;
+  display: flex;
+}
+.lb-input > div {
+  height: 30px;
+}
+.lb-input > div:nth-child(2) {
+  flex: 1;
+  background-size: 100% 100%;
+}
+.lb-input .lb-label {
+  left: 8px;
+  top: 7px;
+  right: 8px;
+  overflow: hidden;
+}
+
+.lb-text {
+  position: absolute;
+  white-space: normal;
+  overflow: hidden;
+}
+
+/* NumStepper (количество припасов): поле 55 px + StepperButton 20x31 */
+.lb-stepper {
+  width: 95px;
+  height: 31px;
+}
+.lb-stepper-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: #fff;
+  font: 14px/30px 'MyriadPro', 'Myriad Pro', Arial, sans-serif;
+  text-align: center;
+  outline: none;
+}
+.lb-stepper img {
+  cursor: pointer;
+}
+
+/* пушка магазина без стрельбы в html5 (GarageView.IMPLEMENTED_TURRETS) */
+.lb-tile-soon {
+  font: bold 12px/16px 'MyriadPro', 'Myriad Pro', Arial, sans-serif;
+  color: #ffb547;
+  text-shadow: 0 1px 2px #000;
+}

@@ -1,0 +1,21 @@
+// Offline input state only. No browser, login or second player.
+import assert from 'node:assert/strict';
+import {KeyboardSource,SimpleKeyboardWeaponController} from '../src/tanks/tank/Controllers.ts';
+import {stickAxes,stickKeys} from '../src/ui/mobile/TouchStick.ts';
+const documentTarget=Object.assign(new EventTarget(),{hidden:false});Object.assign(globalThis,{document:documentTarget});
+const target=new EventTarget(),keyboard=new KeyboardSource(target as any),events:[number,boolean][]=[];
+keyboard.addListener((key,down)=>events.push([key,down]));
+const physical=(type:string,keyCode:number)=>{const event=new Event(type);Object.assign(event,{keyCode,repeat:false});target.dispatchEvent(event);};
+keyboard.setVirtualKey(87,true);keyboard.setVirtualKey(87,true);assert.deepEqual(events,[[87,true]],'held touch produces no repeated keydowns');
+physical('keydown',87);keyboard.setVirtualKey(87,false);assert.deepEqual(events,[[87,true]],'touch release preserves physical W');physical('keyup',87);assert.deepEqual(events.at(-1),[87,false]);
+const fire=new SimpleKeyboardWeaponController(keyboard);keyboard.setVirtualKey(32,true);assert.equal(fire.isTriggerPulled(),true);keyboard.setVirtualKey(32,false);assert.equal(fire.isTriggerPulled(),false);
+keyboard.setVirtualKey(87,true);keyboard.setVirtualKey(65,true);keyboard.setVirtualKey(32,true);target.dispatchEvent(new Event('blur'));assert.equal(fire.isTriggerPulled(),false);assert.ok(events.slice(-3).every(([,down])=>!down),'blur releases simultaneous movement and fire');
+keyboard.setVirtualKey(32,true);documentTarget.hidden=true;documentTarget.dispatchEvent(new Event('visibilitychange'));assert.equal(fire.isTriggerPulled(),false,'background tab does not keep firing');
+assert.deepEqual(stickKeys(0,0),[]);assert.deepEqual(stickKeys(5,5),[]);assert.deepEqual(stickKeys(-45,-50),[87,65]);assert.deepEqual(stickKeys(45,50),[83,68]);assert.deepEqual(stickKeys(0,-1000),[87]);
+assert.deepEqual(stickAxes(0,0),{move:0,turn:0});
+const slight=stickAxes(24,-24),full=stickAxes(60,-60);
+assert.ok(slight.move>0&&slight.move<full.move);
+assert.ok(slight.turn<0&&Math.abs(slight.turn)<Math.abs(full.turn));
+assert.deepEqual(full,{move:1,turn:-1});
+assert.deepEqual(stickAxes(1000,1000),{move:-1,turn:-1});
+keyboard.dispose();console.log('Mobile input: dead zones, diagonals, sustained fire, physical/touch coexistence, blur and hidden-page release OK');

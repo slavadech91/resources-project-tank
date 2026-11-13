@@ -1,0 +1,319 @@
+/*
+ * Современный интерфейс (html.ui-glass, настройка «Современный интерфейс»): окна, внутренние панели, кнопки и поля
+ * лобби и гаража в стиле чата, окна настроек, таблицы Tab и экрана загрузки — тёмное полупрозрачное стекло с тонкой
+ * рамкой цвета темы. Только CSS поверх тех же элементов: размеры и положение окон не меняются (рамка — inset-тень).
+ */
+:root {
+  --glass-bg: rgba(0, 0, 0, 0.72);
+  --glass-inner: rgba(255, 255, 255, 0.035);
+  --glass-accent: rgba(116, 190, 46, 0.55);
+  --glass-accent-soft: rgba(116, 190, 46, 0.28);
+  --glass-button: #3b6e1e;
+  --glass-button-hover: #47852a;
+  --glass-button-border: #6aa83f;
+  --glass-gold: #8a6a12;
+  --glass-gold-border: #d9a92a;
+  --glass-scroll: #3fa52a;
+  --glass-title: #9ce34a;
+}
+.theme-red {
+  --glass-accent: rgba(200, 52, 40, 0.55);
+  --glass-accent-soft: rgba(200, 52, 40, 0.28);
+  --glass-button: #7d1f1a;
+  --glass-button-hover: #94271f;
+  --glass-button-border: #c0453a;
+  --glass-scroll: #c0453a;
+  --glass-title: #ff6a55;
+}
+
+/* ---------- TankWindow: стекло вместо тайла и спрайтовой рамки ---------- */
+.ui-glass .lb-window {
+  background: var(--glass-bg);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--glass-accent), 0 8px 32px rgba(0, 0, 0, 0.66);
+}
+.ui-glass .lb-window > .lb-window-bg,
+.ui-glass .lb-window > .lb-window-top,
+.ui-glass .lb-window > .lb-window-bottom,
+.ui-glass .lb-window > .lb-window-left,
+.ui-glass .lb-window > .lb-window-right,
+.ui-glass .lb-window > .lb-corner-tl,
+.ui-glass .lb-window > .lb-corner-tr,
+.ui-glass .lb-window > .lb-corner-bl,
+.ui-glass .lb-window > .lb-corner-br {
+  display: none;
+}
+
+/* ---------- TankWindowInner: лёгкая подложка с тонкой рамкой ---------- */
+.ui-glass .lb-inner {
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--glass-accent-soft);
+}
+.ui-glass .lb-inner-fill:not([style*='transparent']) {
+  background: var(--glass-inner) !important;
+  border-radius: 4px;
+}
+.ui-glass .lb-inner-clip,
+.ui-glass .lb-inner > [class^='lb-inner-t'],
+.ui-glass .lb-inner > [class^='lb-inner-b'],
+.ui-glass .lb-inner > .lb-inner-l,
+.ui-glass .lb-inner > .lb-inner-r {
+  display: none;
+}
+
+/* ---------- кнопки: плоские, как «Применить» в настройках; рамка — inset-тенью, чтобы подпись не сдвигалась ---------- */
+.ui-glass .lb-button,
+.ui-glass .lb-bigbutton {
+  --glass-edge: var(--glass-button-border);
+  background: var(--glass-button);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--glass-edge);
+  transition: background-color 0.12s;
+}
+.ui-glass .lb-button > div:not(.lb-label),
+.ui-glass .lb-bigbutton > div:not(.lb-label) {
+  display: none;
+}
+.ui-glass .lb-button[data-state='OVER'],
+.ui-glass .lb-bigbutton[data-state='Over'] {
+  background: var(--glass-button-hover);
+}
+.ui-glass .lb-button[data-state='DOWN'],
+.ui-glass .lb-bigbutton[data-state='Down'] {
+  filter: brightness(0.85);
+}
+.ui-glass .lb-bigbutton[data-skin='Grey'] {
+  --glass-edge: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+}
+.ui-glass .lb-bigbutton[data-skin='Grey'][data-state='Over'] {
+  background: rgba(255, 255, 255, 0.14);
+}
+.ui-glass .lb-bigbutton[data-skin='Gold'] {
+  --glass-edge: var(--glass-gold-border);
+  background: var(--glass-gold);
+}
+.ui-glass .lb-button[data-state='OFF'],
+.ui-glass .lb-bigbutton[data-state='OFF'] {
+  --glass-edge: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.45);
+  filter: none;
+}
+
+/* ---------- поля ввода (TankInputBase) ---------- */
+.ui-glass .lb-input {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px var(--glass-accent);
+}
+.ui-glass .lb-input > div:not(.lb-label) {
+  display: none;
+}
+
+/* ---------- прокрутка списков и плиток ---------- */
+.ui-glass .lb-list,
+.ui-glass .lb-tiles {
+  scrollbar-color: var(--glass-scroll) rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- заголовок окна: текстовая плашка вместо каменной таблички (то же место: по центру верхнего края,
+   у вертикальных — по центру левого) ---------- */
+.lb-window-caption {
+  display: none;
+}
+.ui-glass .lb-window > .lb-window-header {
+  display: none;
+}
+.ui-glass .lb-window > .lb-window-caption {
+  display: block;
+  left: 50%;
+  top: -11px;
+  transform: translateX(-50%);
+  padding: 2px 14px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--glass-accent);
+  border-radius: 4px;
+  font: bold 13px/18px 'MyriadPro', 'Myriad Pro', Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--glass-title);
+  z-index: 1;
+}
+.ui-glass .lb-window > .lb-window-caption-v {
+  left: -11px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  padding: 14px 2px;
+  writing-mode: vertical-rl;
+}
+
+/* ---------- верхняя панель боя и лобби (MainPanel + Indicators) ---------- */
+.hud-btn-icon,
+.hud-root .hud-glass-diamond {
+  display: none;
+}
+.ui-glass .hud-top {
+  background: linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.6));
+  box-shadow: 0 1px 0 var(--glass-accent-soft);
+}
+.ui-glass .hud-btn {
+  box-sizing: border-box;
+  background-image: none !important;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  transition: background-color 0.12s;
+}
+.ui-glass .hud-btn:hover {
+  filter: none;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.ui-glass .hud-btn.hud-btn-active {
+  background-color: var(--glass-button);
+  box-shadow: inset 0 0 0 1px var(--glass-button-border);
+}
+.ui-glass .hud-btn[data-name='buy'] {
+  background-color: var(--glass-gold);
+  box-shadow: inset 0 0 0 1px var(--glass-gold-border);
+}
+.ui-glass .hud-btn[data-name='close'] {
+  background-color: rgba(170, 20, 20, 0.75);
+  box-shadow: inset 0 0 0 1px #e05050;
+}
+.ui-glass .hud-btn-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 26px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e6e6e6;
+}
+/* кнопка без подписи — иконка по центру */
+.ui-glass .hud-btn-icon:last-child {
+  width: 100%;
+}
+.ui-glass .hud-btn .hud-label {
+  filter: none;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+.ui-glass .hud-pill {
+  border-image: none;
+  /* у картинок таблеток рамка 6/14–16 px; inset-тень рисуется внутри рамки, поэтому без неё — по всей ширине */
+  border-width: 0;
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--glass-accent);
+}
+.ui-glass .hud-glass-diamond {
+  display: block;
+  right: 8px;
+  top: 9px;
+}
+
+/* ---------- фонд, время, счёт в бою ---------- */
+.ui-glass .hud-frame {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--glass-accent);
+}
+.ui-glass .hud-frame > div {
+  background-image: none !important;
+}
+
+/* ---------- кнопки режимов в списке битв (BattleModeCheckBox) ---------- */
+.ui-glass .lb-modebox {
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+.ui-glass .lb-modebox:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.ui-glass .lb-modebox.lb-pressed {
+  background: var(--glass-button);
+  box-shadow: inset 0 0 0 1px var(--glass-button-border);
+}
+.ui-glass .lb-modebox > .lb-modebox-state {
+  visibility: hidden;
+}
+
+/* векторные иконки (ui/glassIcons.ts) */
+.glass-icon {
+  display: block;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.6));
+}
+.ui-glass .hud-btn-active .hud-btn-icon,
+.ui-glass .hud-btn[data-name='close'] .hud-btn-icon {
+  color: #fff;
+}
+.ui-glass .hud-btn[data-name='close'] .glass-icon {
+  width: 15px;
+  height: 15px;
+}
+.glass-sound-off,
+.hud-btn-muted .glass-sound-on {
+  display: none;
+}
+.hud-btn-muted .glass-sound-off {
+  display: inline;
+}
+.lb-modebox-icon {
+  display: none;
+}
+.ui-glass .lb-modebox > .lb-modebox-image {
+  display: none;
+}
+.ui-glass .lb-modebox-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e6e6e6;
+}
+.ui-glass .lb-modebox.lb-pressed .lb-modebox-icon {
+  color: #fff;
+}
+/* выключенный звук показывает перечёркнутый динамик, кнопку не притушиваем */
+.ui-glass .hud-btn.hud-btn-muted {
+  opacity: 1 !important;
+}
+
+/* верхняя панель: плашки и кнопки высотой 25 по центру полосы 29; большой значок звания — как в оригинале */
+.ui-glass .hud-btn,
+.ui-glass .hud-pill {
+  margin-top: 2px;
+  height: 25px;
+}
+.ui-glass .hud-pill {
+  top: 0;
+}
+.ui-glass .hud-btn .hud-label {
+  top: 4px;
+}
+.ui-glass .hud-ind > .hud-label {
+  margin-top: 1px;
+}
+/* полоска опыта — тонкая линия у нижнего края плашки ника, не перекрывает текст */
+.ui-glass .hud-xp,
+.ui-glass .hud-xp-gain {
+  top: 22px;
+  height: 2px;
+  border-radius: 1px;
+}
+.ui-glass .hud-xp {
+  opacity: 0.9;
+}
+.ui-glass .hud-glass-diamond {
+  right: 8px !important;
+}
+/* в бою — без тёмной полосы под верхней панелью, плашки и кнопки остаются */
+.ui-glass .hud-root.hud-in-battle .hud-top {
+  background: none;
+  box-shadow: none;
+}

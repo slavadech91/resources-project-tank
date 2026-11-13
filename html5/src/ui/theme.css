@@ -1,0 +1,112 @@
+/* Красно-тёмно-серая тема: html.theme-red (ui/theme.ts). Картинки — tools/recolor_ui_theme.py -> public/themes/red */
+.theme-red .lb-window-bg {
+  background: url('/themes/red/lobby/ui/WindowBGTile.png');
+}
+.theme-red .lb-window-top {
+  background: url('/themes/red/lobby/ui/WindowTop.png') repeat-x;
+}
+.theme-red .lb-window-bottom {
+  background: url('/themes/red/lobby/ui/WindowBottom.png') repeat-x;
+}
+.theme-red .lb-window-left {
+  background: url('/themes/red/lobby/ui/WindowLeft.png') repeat-y;
+}
+.theme-red .lb-window-right {
+  background: url('/themes/red/lobby/ui/WindowRight.png') repeat-y;
+}
+.theme-red .lb-inner-t {
+  background-image: url('/themes/red/lobby/ui/TankWindowInner_topClass.png');
+}
+.theme-red .lb-inner-b {
+  background-image: url('/themes/red/lobby/ui/TankWindowInner_bottomClass.png');
+}
+.theme-red .lb-inner-l {
+  background-image: url('/themes/red/lobby/ui/TankWindowInner_leftClass.png');
+}
+.theme-red .lb-inner-r {
+  background-image: url('/themes/red/lobby/ui/TankWindowInner_rightClass.png');
+}
+.theme-red .lb-inner-tl {
+  background-image: url('/themes/red/lobby/ui/TankWindowInner_topLeftClass.png');
+}
+.theme-red .lb-inner-tr {
+  background-image: url('/themes/red/lobby/ui/TankWindowInner_topRightClass.png');
+}
+.theme-red .lb-inner-bl {
+  background-image: url('/themes/red/lobby/ui/TankWindowInner_bottomLeftClass.png');
+}
+.theme-red .lb-inner-br {
+  background-image: url('/themes/red/lobby/ui/TankWindowInner_bottomRightClass.png');
+}
+.theme-red .hud-pill-name {
+  border-image: url('/themes/red/battle/hud/indicators_name.png') 0 14 0 6 fill / 0 14px 0 6px stretch;
+}
+.theme-red .hud-pill-crystal {
+  border-image: url('/themes/red/battle/hud/indicators_crystal.png') 0 16 0 6 fill / 0 16px 0 6px stretch;
+}
+.theme-red .hud-frame-c {
+  background: url('/themes/red/battle/hud/frame_center.png') repeat-x;
+}
+/* цвета, которые в оригинале зелёные */
+.theme-red .lb-list,
+.theme-red .lb-tiles {
+  scrollbar-color: #b8322a #1e0c0b;
+}
+.theme-red .hud-ind .hud-label {
+  color: #ff7a68;
+  -webkit-text-stroke: 0.4px rgba(30, 4, 2, 0.55);
+}
+.theme-red .hud-xp {
+  background: #ff3d2e;
+}
+.theme-red .stats-root {
+  border-color: rgba(200, 52, 40, 0.55);
+}
+.theme-red .stats-title {
+  color: #ff6a55;
+}
+.theme-red .stats-table tr.stats-local td {
+  background: rgba(200, 52, 40, 0.25);
+}
+.theme-red .battle-loader-bar {
+  background: #2a1716;
+}
+.theme-red .battle-loader-bar > div {
+  background: #d23a2c;
+}
+.theme-red .settings-window button {
+  background: #7d1f1a;
+  border-color: #c0453a;
+}
+
+/* экран загрузки и окно авторизации */
+.theme-red .lobby-loader-box,
+.theme-red .auth-window {
+  border-color: rgba(200, 52, 40, 0.55);
+}
+.theme-red .lobby-loader-caption,
+.theme-red .auth-title {
+  color: #ff6a55;
+}
+.theme-red .lobby-loader-bar {
+  background: #2a1716;
+}
+.theme-red .lobby-loader-fill {
+  background: #d23a2c;
+}
+.theme-red .auth-row input {
+  border-color: #5a2622;
+}
+.theme-red .auth-row input:focus {
+  border-color: #d23a2c;
+}
+.theme-red .auth-check input {
+  accent-color: #d23a2c;
+}
+.theme-red .auth-submit {
+  background: #7d1f1a;
+  border-color: #c0453a;
+}
+.theme-red .auth-submit:hover:not(:disabled) {
+  background: #94271f;
+}

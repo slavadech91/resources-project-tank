@@ -1,0 +1,23 @@
+// Offline DB/authority/loadout checks. No login, live account or second tank.
+import assert from 'node:assert/strict';
+import {AppearanceStore} from '../src/garage/appearance.ts';
+import {GarageCatalog} from '../src/garage/catalog.ts';
+import {assembleLoadout} from '../src/battle/loadout.ts';
+import {handlers} from '../src/handlers.ts';
+import {appearanceFamily,appearanceFor,appearancePartPath} from '../../html5/src/net2/appearance.ts';
+import {S2Garage} from '../../html5/src/net2/S2Garage.ts';
+const catalog=new GarageCatalog('dev/configs'),items=[...catalog.items.values()],rows=new Map<string,string>();let creates=0;
+const db:any={query:async(sql:string,args:any[]=[])=>{if(sql.startsWith('CREATE'))creates++;if(sql.startsWith('INSERT'))rows.set(`${args[0]}:${args[1]}`,args[2]);return {rows:sql.startsWith('SELECT')?[...rows].filter(([key])=>key.startsWith(`${args[0]}:`)).map(([key,style])=>({family:key.slice(key.indexOf(':')+1),style})):[],affectedRows:1,insertId:0};}};
+const store=new AppearanceStore(db,catalog);await store.init();assert.equal(creates,1);assert.deepEqual(await store.get(1),{});
+const families=new Set(items.filter(i=>['weapon','armor'].includes(i.category)&&!i.objectPath?.includes('/varan/')).map(i=>appearanceFamily(i.objectPath??'')));assert.equal(families.has(null),false);assert.equal(families.size,16);
+const gun=items.find(i=>i.objectPath?.includes('/thunder/m0'))!,hull=items.find(i=>i.objectPath?.includes('/wasp/m0'))!,varan=items.find(i=>i.objectPath?.includes('/varan/'))!;assert.ok(gun&&hull&&varan);
+assert.deepEqual(await store.set(1,gun.id,'old'),{'turrets/thunder':'old'});await store.set(2,gun.id,'gen2');assert.deepEqual(await store.get(1),{'turrets/thunder':'old'});
+await assert.rejects(()=>store.set(1,gun.id,'invalid'));await assert.rejects(()=>store.set(1,varan.id,'old'));await assert.rejects(()=>store.set(1,-1,'old'));
+const preferences=await store.set(1,hull.id,'old');const normal=assembleLoadout([hull,gun],new Map(),[]),old=assembleLoadout([hull,gun],new Map(),[],false,preferences);
+assert.equal(old.parts.turretStyle,'old');assert.equal(old.parts.hullStyle,'old');assert.equal(normal.parts.turretStyle,'gen2');
+assert.deepEqual({...old,parts:normal.parts},normal,'cosmetics must not change weapon/armor/speed/mass/inventory/balance');
+for(const mod of catalog.modifications(gun))assert.equal(appearanceFor(mod.objectPath!,preferences),'old','preference follows all M0–M3');
+assert.equal(appearanceFamily(varan.objectPath!),null);assert.equal(appearancePartPath('hulls/varan/m0','old'),'hulls/varan/m0');
+await handlers['garage.appearance']({garage:{appearances:store}}as any,{user:{id:3}}as any,{itemId:gun.id,style:'old',userId:2});assert.equal((await store.get(3))['turrets/thunder'],'old');assert.equal((await store.get(2))['turrets/thunder'],'gen2','request cannot choose another user');
+const client=new S2Garage();let changed=0,sent:any;client.onChange=()=>changed++;client.connect({request:async(type:string,args:any)=>{sent={type,args};return {appearances:preferences};}}as any);client.setAppearance({objectId:gun.id}as any,'old');await Promise.resolve();assert.equal(sent.type,'garage.appearance');assert.equal(sent.args.itemId,gun.id);assert.equal(sent.args.style,'old');assert.deepEqual(client.appearances,preferences);assert.equal(changed,1);
+console.log('Appearances: DB persistence, user isolation, server-owned identity, validation, M0–M3 family selection, Gen2 default, unchanged loadout, Varan exclusion and client reply sync OK');
