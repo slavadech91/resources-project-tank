@@ -103,7 +103,8 @@ trap 'exit 143' TERM
 mkdir -p "$stage/new" "$stage/previous/"{html5,server2} "$stage/rejected"
 download="$repo/releases/download/$tag"
 for file in overhaul-debian.tar.gz.sha256 overhaul-debian.tar.gz; do
-  curl -fsSL --retry 2 --max-time 180 "$download/$file" -o "$stage/$file"
+  curl -fsSL --retry 2 --retry-all-errors --max-time 180 \
+    "$download/$file?update=$(date +%s)" -o "$stage/$file"
 done
 (
   cd "$stage"
