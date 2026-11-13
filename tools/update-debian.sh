@@ -15,11 +15,12 @@ tag="${1:-}"
 }
 if [[ -z "$tag" ]]; then
   tag=$(curl -fsSL --retry 2 --max-time 20 \
-    'https://api.github.com/repos/slavadech91/resources-project-tank/releases?per_page=30' |
+    "https://api.github.com/repos/slavadech91/resources-project-tank/releases?per_page=30&update=$(date +%s)" |
     node -e '
       const releases = JSON.parse(require("node:fs").readFileSync(0, "utf8"));
-      const latest = releases.find(({ tag_name, prerelease }) =>
-        !prerelease && /^debian-[0-9a-f]{40}$/.test(tag_name));
+      const [latest] = releases
+        .filter(({ tag_name, prerelease }) => !prerelease && /^debian-[0-9a-f]{40}$/.test(tag_name))
+        .sort((a, b) => b.published_at.localeCompare(a.published_at));
       if (latest) process.stdout.write(latest.tag_name);
     ')
   [[ "$tag" =~ ^debian-[0-9a-f]{40}$ ]] || {
