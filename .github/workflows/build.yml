@@ -5,6 +5,10 @@ on: [push, pull_request]
 permissions:
   contents: read
 
+concurrency:
+  group: overhaul-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,3 +24,41 @@ jobs:
       - run: pnpm --dir html5 build
       - run: node server2/build.mjs
       - run: node tools/test-source.mjs
+  publish-debian:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - run: pnpm --dir html5 install --frozen-lockfile
+      - run: pnpm --dir html5 build
+      - run: node server2/build.mjs
+      - name: Publish Debian update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          package="$(mktemp -d)"
+          mkdir -p "$package/html5/dist" "$package/server2"
+          cp html5/dist/index.html "$package/html5/dist/"
+          cp -r html5/dist/assets "$package/html5/dist/"
+          cp -r html5/server "$package/html5/"
+          cp -r server2/dist server2/data "$package/server2/"
+          printf '%s\n' "$GITHUB_SHA" > "$package/REVISION"
+          tar -czf overhaul-debian.tar.gz -C "$package" REVISION html5 server2
+          sha256sum overhaul-debian.tar.gz > overhaul-debian.tar.gz.sha256
+          tag="debian-$GITHUB_SHA"
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" --target "$GITHUB_SHA" --draft \
+              --title "Overhaul Debian ${GITHUB_SHA:0:12}" \
+              --notes "Client and server update for an existing Overhaul installation."
+          fi
+          gh release upload "$tag" overhaul-debian.tar.gz overhaul-debian.tar.gz.sha256 --clobber
+          gh release edit "$tag" --draft=false --latest
