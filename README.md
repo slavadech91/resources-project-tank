@@ -17,11 +17,13 @@ node tools/test-source.mjs
 
 ## Запуск отдельной облачной копии
 
-1. Распакуйте переданный владельцем архив ресурсов в корень клона. Он добавляет `dev/configs` и `html5/public`. Извлекайте его до сборки клиента, чтобы Vite перенёс ресурсы в `html5/dist`.
+1. Скачайте архив ресурсов из [релиза runtime-v1](https://github.com/slavadech91/resources-project-tank/releases/tag/runtime-v1) и распакуйте его в корень клона. Он добавляет `dev/configs` и `html5/public`. Извлекайте его до сборки клиента, чтобы Vite перенёс ресурсы в `html5/dist`.
 2. Создайте отдельную базу MariaDB и пользователя с доступом к ней. Сервер использует `mysql_native_password`. Примените `server2/deploy/schema.sql` к новой базе. Таблицы боёв, заданий и вариантов внешнего вида сервер создаёт при запуске.
 3. Передайте серверу настройки базы через переменные `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` и `DB_NAME` средствами секретов хостинга. Конфигурация по умолчанию использует базу `overhaul` на `127.0.0.1:3306`.
 
 ```bash
+curl -fL -o overhaul-runtime.tar.gz https://github.com/slavadech91/resources-project-tank/releases/download/runtime-v1/overhaul-runtime.tar.gz
+tar -xzf overhaul-runtime.tar.gz
 mariadb -h 127.0.0.1 -u overhaul -p overhaul < server2/deploy/schema.sql
 pnpm --dir html5 build
 node server2/build.mjs
@@ -39,7 +41,7 @@ HOST=127.0.0.1 PORT=5180 SERVER2_PORT=5290 node html5/server/public-server.mjs
 ## Что передать в облако
 
 - Клонируйте этот репозиторий исходников в облачное рабочее окружение.
-- Архив ресурсов передайте отдельно через приватное хранилище. Он содержит игровые ассеты, необходимые для запуска, и настройки без учётных данных. Для обновления архива с рабочего дерева есть `tools/package-runtime.py`. Для текущего набора карт передайте `--exclude-map test --exclude-map polygon`.
+- Скачайте архив ресурсов из релиза GitHub. Он содержит игровые ассеты, необходимые для запуска, и настройки без учётных данных. Для обновления архива с рабочего дерева есть `tools/package-runtime.py`. Для текущего набора карт передайте `--exclude-map test --exclude-map polygon`.
 - Базу существующих игроков, приватные ключи и параметры рабочего сервера храните отдельно. Пустой тестовой копии достаточно схемы MariaDB и собственного пароля.
 
 ## Ориентиры для разработки
