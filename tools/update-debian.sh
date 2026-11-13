@@ -14,8 +14,14 @@ tag="${1:-}"
   exit 2
 }
 if [[ -z "$tag" ]]; then
-  latest=$(curl -fsSL --retry 2 --max-time 20 -o /dev/null -w '%{url_effective}' "$repo/releases/latest")
-  tag=${latest##*/}
+  tag=$(curl -fsSL --retry 2 --max-time 20 \
+    'https://api.github.com/repos/slavadech91/resources-project-tank/releases?per_page=30' |
+    node -e '
+      const releases = JSON.parse(require("node:fs").readFileSync(0, "utf8"));
+      const latest = releases.find(({ tag_name, prerelease }) =>
+        !prerelease && /^debian-[0-9a-f]{40}$/.test(tag_name));
+      if (latest) process.stdout.write(latest.tag_name);
+    ')
   [[ "$tag" =~ ^debian-[0-9a-f]{40}$ ]] || {
     echo 'No Debian update has been published yet.' >&2
     exit 1
